@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href='https://fonts.googleapis.com/css?family=Philosopher' rel='stylesheet'>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+    <title>Webleb</title>
+    <link rel="stylesheet" href="/static/css/login.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        function handleLogin() {
+            var nis = document.getElementsByName("nis")[0].value;
+            var password = document.getElementsByName("password")[0].value;
+            console.log(nis, password);
+            $.ajax({
+                url: "/login",
+                type: "POST",
+                data: {
+                    nis: nis,
+                    password: password
+                },
+                success: function (response) {
+                    if (response.result === "success") {
+                        // Redirect ke halaman dashboard jika login berhasil
+                        window.location.href = "/dashboard";
+                        document.getElementById("successMsg").innerText = 'Selamat Datang ' + response.nama;
+                        showAlert('#alertSuccess');
+                    } else {
+                        showAlert('#alertError');
+                    }
+                },
+                error: function () {
+                    showAlert('#alertError');
+                    console.log(data);
+                }
+            });
+
+            return false;  // Mencegah formulir dikirimkan secara tradisional
+        }
+
+        function showAlert(selector) {
+            $(selector).addClass('show');
+            setTimeout(function () {
+                $(selector).removeClass('show');
+            }, 10000); // Hapus alert setelah 10 detik
+        }
+
+        function closeAlert(selector) {
+            $(selector).removeClass('show');
+        }
+
+        function showPassword() {
+            var passwordField = document.getElementById("password");
+            if (passwordField.type === "password") {
+                passwordField.type = "text";
+            } else {
+                passwordField.type = "password";
+            }
+        }
+
+        function togglePasswordVisibility() {
+            var passwordField = document.getElementById("password");
+            var eyeIconOpen = document.getElementById("eye-icon-open");
+            var eyeIconClosed = document.getElementById("eye-icon-closed");
+
+            if (passwordField.type === "password") {
+                passwordField.type = "text";
+                eyeIconOpen.classList.add("d-none");
+                eyeIconClosed.classList.remove("d-none");
+            } else {
+                passwordField.type = "password";
+                eyeIconOpen.classList.remove("d-none");
+                eyeIconClosed.classList.add("d-none");
+            }
+        }
+    </script>
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <div class="container px-4">
+            <a class="navbar-brand" href="/">
+                <img class="logo" src="/static/pic/digidas logo sementara.png" alt="">
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                    <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/code">Blog</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/pricing">Services</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/about">About</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/faq">Contact Us</a></li>
+                    <li></li>
+                </ul>
+                <!-- <a href="/login"><button class="login-button">Login</button></a> -->
+            </div>
+        </div>
+    </nav>
+    <div id="stars"></div>
+    <div id="stars2"></div>
+    <div id="stars3"></div>
+    <div id="alertSuccess" class="alert alert-success alert-dismissible fade" role="alert">
+        <strong>Halo!</strong> <span id="successMsg"></span>
+        <button type="button" class="btn-close" onclick="closeAlert('#alertSuccess')" aria-label="Close"></button>
+    </div>
+    <div id="alertError" class="alert alert-danger alert-dismissible fade" role="alert">
+        <strong>Error!</strong> Terjadi kesalahan saat login.
+        <button type="button" class="btn-close" onclick="closeAlert('#alertError')" aria-label="Close"></button>
+    </div>
+    <div class="login-page">
+        <div class="form">
+            <form class="login-form" method="post" onsubmit="return handleLogin()">
+                <strong>
+                    <h2 class="judul"></i> Login</h2>
+                </strong>
+                <input type="number" placeholder="NIS" name="nis" required />
+                <div class="password-container">
+                    <input type="password" placeholder="Password" name="password" id="password" required />
+                    <i class="show-password-icon" onclick="togglePasswordVisibility()">
+                        <svg id="eye-icon-closed" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="white"
+                            class="bi bi-eye-slash d-none" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd"
+                                d="M1.646 2.354a.5.5 0 0 1 .708 0l12 12a.5.5 0 0 1-.708.708l-12-12a.5.5 0 0 1 0-.708zM8 4a5 5 0 0 0-4.435 2.565L1.15 6.015a1 1 0 0 0-1.301 1.301l.414.414a1 1 0 0 0 1.301-1.301l.414-.414A3.978 3.978 0 0 1 8 3c1.188 0 2.266.534 2.982 1.373l-.663.663A2 2 0 0 0 8 4zm2.879 3.879a2 2 0 0 0-2.646 2.646l-.707.707a4.978 4.978 0 0 1-5.292 1.82l-1.24 1.24a.5.5 0 0 0 .707.707l1.24-1.24a4.978 4.978 0 0 1 5.292-1.82l.707-.707a2 2 0 0 0 2.646-2.646l-.707.707a3 3 0 0 1-3.975 3.975l-.707.707a5.002 5.002 0 0 0 6.682-6.682l-.707.707z" />
+                        </svg>
+                    </i>
+                </div>
+                <button type="submit" class="btni">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    Sign in
+                </button>
+            </form>
+        </div>
+    </div>
+</body>
+
+</html>

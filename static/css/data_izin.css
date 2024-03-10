@@ -1,0 +1,64 @@
+@import url(https://fonts.googleapis.com/css?family=Poppins:300);
+@import url('https://fonts.googleapis.com/css2?family=Philosopher:wght@300&display=swap');
+
+nav {
+    background: linear-gradient(to right, #0b9c8e, #034d3d);
+    box-shadow: 0 3px 20px rgba(0, 0, 0, 0.2);
+    display: flex;
+    padding-bottom: 50px;
+}
+
+body {
+    background-size: 250px;
+    background-color: #f9f6f2;
+}
+
+.logo {
+    width: 300px;
+    margin-left: 20px;
+}
+
+.navbar-nav .nav-item .nav-link {
+    text-decoration: none;
+    margin: 0 0.7vw;
+    color: #bea42e;
+    font-family: Philosopher;
+    font-size: large;
+}
+
+.navbar-nav .nav-item .nav-link:hover {
+    color: white;
+}
+
+.login-button {
+    background-color: transparent;
+    color: #bea42e;
+    border: 1.5px solid #bea42e;
+    border-radius: 10px;
+    padding: 7px 10px 7px 10px;
+    margin-left: 2vw;
+    font-size: 1rem;
+    cursor: pointer;
+    margin-right: 20px;
+}
+
+.login-button:hover {
+    color: #131418;
+    background-color: #f2f5f7;
+    border: 1.5px solid #f2f5f7;
+    transition: all ease-in-out 350ms;
+}
+
+.btn {
+    width: 100px;
+}
+
+.isi {
+    font-size: larger;
+    text-transform: uppercase;
+}
+
+tbody {
+    font-family: Roboto;
+    font-size: large;
+}

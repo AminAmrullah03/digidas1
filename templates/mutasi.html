@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+    <title>MUTASI</title>
+    <link rel="stylesheet" href="/static/css/mutasi.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-r0I11+wx50j7d5qd5UWUN5z5l3gF5voRNFp4XrQ2gAFGvOV+5y6P8u1q5R0i6bF"
+        crossorigin="anonymous"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        function toggleForm() {
+            var formTambah = document.getElementById("formTambah");
+            formTambah.style.display = "block";
+
+        }
+
+        function tambah_daftar() {
+            var nama = document.querySelector('input[placeholder="Nama"]').value;
+            var jenis_kelamin = document.querySelector('input[placeholder="Jenis Kelamin"]').value;
+            var tanggal = document.getElementById('tanggal').value;
+            var status = document.getElementById('status').value;
+        }
+        document.addEventListener("DOMContentLoaded", function () {
+            var successParam = new URLSearchParams(window.location.search).get('success');
+            if (successParam === '1' && !localStorage.getItem('alertShown')) {
+                Swal.fire({
+                    title: 'Sukses!',
+                    text: 'Data berhasil ditambahkan!',
+                    icon: 'success'
+                });
+                localStorage.setItem('alertShown', 'true');
+            }
+        });
+        function hapus_daftar(id) {
+            Swal.fire({
+                title: 'Hapus Data',
+                text: 'Apakah Anda yakin ingin menghapus data ini?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
+                confirmButtonText: 'Ya, Hapus!',
+                cancelButtonText: 'Batal'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        type: "GET",
+                        url: `/hapus_mutasi/${id}`,
+                        success: function (response) {
+                            console.log(response);
+                            Swal.fire(
+                                'Terhapus!',
+                                'Data berhasil dihapus.',
+                                'success'
+                            );
+                            window.location.reload();
+                        },
+                        error: function (error) {
+                            console.error('Error:', error);
+                        }
+                    });
+                }
+            });
+        }
+        function edit_daftar(id) {
+            var formTambah = document.getElementById("formTambah");
+            var btnKembali = document.getElementById("btnKembali");
+            document.querySelector('.judul').innerText = 'Edit';
+            document.querySelector('.btni').innerText = 'Simpan';
+            document.querySelector('.login-form').removeAttribute('action');
+            document.querySelector('.btni').removeAttribute('onclick');
+            document.querySelector('.btni').addEventListener('click', function () {
+                simpan_edit(id);
+            });
+            $.ajax({
+                type: "GET",
+                url: `/get_mutasi/${id}`,
+                success: function (response) {
+                    document.getElementById('nama').value = response.nama;
+                    document.getElementById('jenis_kelamin').value = response.jenis_kelamin;
+                    document.getElementById('tanggal').value = response.tanggal;
+                    document.getElementById('status').value = response.status;
+
+                    formTambah.style.display = "block";
+                    btnKembali.style.display = "block";
+                },
+                error: function (error) {
+                    console.error('Error:', error);
+                }
+            });
+        }
+
+        function simpan_edit(id) {
+            var nama = document.getElementById('nama').value;
+            var jenis_kelamin = document.getElementById('jenis_kelamin').value;
+            var tanggal = document.getElementById('tanggal').value;
+            var status = document.getElementById('status').value;
+            $.ajax({
+                type: "POST",  // Ganti menjadi POST
+                url: `/edit_mutasi/${id}`,
+                data: {
+                    nama: nama,
+                    jenis_kelamin: jenis_kelamin,
+                    tanggal: tanggal,
+                    status: status
+                },
+                success: function (response) {
+                    console.log(response);
+                    Swal.fire({
+                        title: 'Sukses!',
+                        text: 'Data berhasil diedit!',
+                        icon: 'success'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            setTimeout(() => {
+                                window.location.reload();
+                            }, 2000); // Reload halaman setelah 2 detik (sesuaikan dengan kebutuhan)
+                        }
+                    });
+                },
+
+                error: function (error) {
+                    console.error('Error:', error);
+                    Swal.fire({
+                        title: 'Error!',
+                        text: 'Terjadi kesalahan saat mengedit data.',
+                        icon: 'error'
+                    });
+                }
+            });
+        }
+
+        function kembali() {
+            var formTambah = document.getElementById("formTambah");
+            var btnKembali = document.getElementById("btnKembali");
+            formTambah.style.display = "none";
+            document.getElementById('nama').value = '';
+            document.getElementById('jenis_kelamin').value = '';
+            document.getElementById('tanggal').value = '';
+            document.getElementById('status').value = '';
+        }
+    </script>
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg bg-body-tertiary">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#"><img class="logo" src="/static/pic/ppd.png" alt=""></a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav mx-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link menu" href="#">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link menu" href="#">About</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="container">
+        <h1 class="title has-text-centered">Mutasi Santri</h1>
+        <table class="table caption-top">
+            <thead>
+                <tr>
+                    <th scope="col">Nama Santri</th>
+                    <th scope="col">Jenis Kelamin</th>
+                    <th scope="col">Tanggal</th>
+                    <th scope="col">Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for entry in data %}
+                <tr>
+                    <td>{{ entry.nama}}</td>
+                    <td>{{ entry.jenis_kelamin}}</td>
+                    <td>{{ entry.tanggal}}</td>
+                    <td>{{ entry.status}}</td>
+                    <td>
+                        <button type="button" class="btn btn-secondary" onclick="edit_daftar('{{ entry._id }}')">
+                            <i class="fas fa-edit"></i> Edit
+                        </button>
+                        <a href="{{ url_for('hapus_mutasi', id=entry['_id']) }}" class="btn btn-danger"><i
+                                class="fas fa-trash"></i>Delete</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <button type="button" class="btn btn-primary" onclick="toggleForm()">
+            <i class="fas fa-plus"></i> Tambah
+        </button>
+    </div>
+    <div class="login-page" id="formTambah" style="display:none;">
+        <div class="form">
+            <form class="login-form" method="post" action="/tambah_mutasi">
+                <strong>
+                    <h2 class="judul">Mutasi</h2>
+                </strong>
+                <input type="text" id="nama" name="nama" placeholder="Nama" required />
+                <div class="form-floating">
+                    <select class="form-select" id="jenis_kelamin" name="jenis_kelamin" required>
+                        <option value="" disabled selected>Jenis Kelamin</option>
+                        <option class="drop" value="Laki-laki">Laki-laki</option>
+                        <option class="drop" value="Perempuan">Perempuan</option>
+                    </select>
+                </div>
+                <input type="date" id="tanggal" name="tanggal" placeholder="Tanggal" required />
+                <div class="form-floating">
+                    <select class="form-select" name="status" id="status" required>
+                        <option value="" disabled selected>Status</option>
+                        <option class="drop" value="Masuk">Masuk</option>
+                        <option class="drop" value="Keluar">Keluar</option>
+                    </select>
+                </div>
+                <button type="submit" class="btni" onclick="tambah_daftar()">Tambah</button>
+                <button type="button" class="btni" id="btnKembali" onclick="kembali()">Kembali</button>
+            </form>
+        </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</body>
+
+</html>

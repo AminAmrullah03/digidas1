@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data Kehadiran Guru</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/static/css/absensi.css">
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href='https://fonts.googleapis.com/css?family=Philosopher' rel='stylesheet'>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <title>DIGIDAS</title>
+    <link rel="icon" type="image/png" href="/static/pic/ppd.png">
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <div class="container px-4">
+            <a class="navbar-brand" href="/">
+                <img class="logo img-fluid" src="/static/pic/digidas logo sementara.png" alt="">
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                    <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/code">Blog</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/pricing">Services</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/about">About</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/faq">Contact Us</a></li>
+                    <li></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="container mt-5">
+        <h1>Data Kehadiran Guru</h1>
+        <form method="post" action="/tambah_absensi">
+            <div class="form-group">
+                <label for="namaGuruInput">Nama Guru:</label>
+                <input type="text" class="form-control" id="namaGuruInput" name="nama">
+                <div class="autocomplete-dropdown" id="autocompleteDropdown"></div>
+            </div>
+            <div class="form-group">
+                <label for="statusSelect">Status Kehadiran:</label>
+                <select class="form-control" id="statusSelect" name="hadir">
+                    <option value="hadir">Hadir</option>
+                    <option value="izin">Izin</option>
+                    <option value="alpha">Alpha</option>
+                </select>
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+    </div>
+    <script>
+        const namaGuruInput = document.getElementById('namaGuruInput');
+        const autocompleteDropdown = document.getElementById('autocompleteDropdown');
+
+        const daftarGuru = [
+            "Agus H. Gholban Aunirrahman",
+            "Ustad H. Moh Thohari",
+            "Agus H. Zaky Audani",
+            "Agus M. Auda Rifqi",
+            "Agus A. Dhiyaa Ul Haqq",
+            "Ustad Mukarromin",
+            "Ustad M. Tantowi",
+            "Ustad Ibrahim",
+            "Ustad Moh. Asnawi",
+            "Ustad Misbahul Umam",
+            "Ustad Humaidi",
+            "Ustad Syafaat",
+            "Ustad Hanif Lutfi",
+            "Ustad A. Fauzan",
+            "Ustad Abdul Hamid",
+            "Ustad A. Syahid Arifin",
+            "Ustad Sukron",
+            "Ustad Abdullah",
+            "Ustad Anas Rizal F",
+            "Ustad Edi Riski",
+            "Ustad Yusuf R",
+            "Ustad Muttaqin H.",
+            "Ustad Abd Rohim",
+            "Ustad Alfan Fadli",
+            "Ustad A. Noval Firdaus",
+            "Ustad Sulhan Mabruri",
+            "Ustad Afi",
+            "Ustad Robby",
+            "Ustad Hakim",
+            "Ustad Didin",
+            "Ustad Fadoli",
+            "Ustad Jimly",
+            "Ustad Muzammil",
+            "Ustad Amrul",
+            "Ustad Yaqin"
+        ];
+
+        function showDropdown(input) {
+            const searchText = input.value.toLowerCase();
+            const filteredGuru = daftarGuru.filter(guru => guru.toLowerCase().includes(searchText));
+
+            autocompleteDropdown.innerHTML = '';
+
+            filteredGuru.forEach(guru => {
+                const option = document.createElement('div');
+                option.classList.add('autocomplete-item');
+                option.textContent = guru;
+                option.addEventListener('click', function () {
+                    namaGuruInput.value = guru;
+                    autocompleteDropdown.innerHTML = '';
+                });
+                autocompleteDropdown.appendChild(option);
+            });
+
+            if (searchText && filteredGuru.length > 0) {
+                autocompleteDropdown.style.display = 'block';
+            } else {
+                autocompleteDropdown.style.display = 'none';
+            }
+        }
+
+        namaGuruInput.addEventListener('input', function () {
+            showDropdown(this);
+        });
+
+        document.addEventListener('click', function (e) {
+            if (!namaGuruInput.contains(e.target)) {
+                autocompleteDropdown.style.display = 'none';
+            }
+        });
+        $(document).ready(function () {
+            $('form').submit(function (event) {
+                event.preventDefault();
+                var form = $(this);
+                $.ajax({
+                    type: form.attr('method'),
+                    url: form.attr('action'),
+                    data: form.serialize(),
+                    dataType: 'json',
+                    success: function (data) {
+                        if (data.success) {
+                            swal({
+                                title: "Sukses!",
+                                text: data.message,
+                                icon: "success",
+                                button: "OK",
+                            }).then(function () {
+                                window.location.href = "/absensi_kehadiran"; // Redirect ke halaman utama setelah menekan OK
+                            });
+                        } else {
+                            swal({
+                                title: "Gagal!",
+                                text: data.message,
+                                icon: "error",
+                                button: "OK",
+                            });
+                        }
+                    },
+                    error: function () {
+                        swal({
+                            title: "Gagal!",
+                            text: "Terjadi kesalahan saat memproses permintaan.",
+                            icon: "error",
+                            button: "OK",
+                        });
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+
+</html>

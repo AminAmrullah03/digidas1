@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+
+    <title>{{ kelas.nama_kelas }}</title>
+    <link rel="stylesheet" href="/static/css/jurnal.css">
+    <script>
+        function lihat(index) {
+            $.ajax({
+                type: "GET",
+                url: `{{ url_for('get_santri', kelas_id=kelas._id, santri_index='') }}${index}`,
+                success: function (response) {
+                    alert(`Nama Santri: ${response.nama}, NIS: ${response.nis}`);
+                },
+                error: function (error) {
+                    alert('Terjadi kesalahan saat mengambil data santri');
+                }
+            });
+        }
+        function hapusSantri(kelasId, santriIndex) {
+            var confirmDelete = confirm('Apakah Anda yakin ingin menghapus santri ini?');
+            if (confirmDelete) {
+                fetch(`/hapus_santri/${kelasId}/${santriIndex}`, {
+                    method: 'POST',
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        alert(data.message);
+                        window.location.reload();
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        alert('Terjadi kesalahan'); // Menampilkan alert jika terjadi kesalahan
+                    });
+            }
+        }
+
+        function kembali() {
+            var formTambah = document.getElementById("formTambah");
+            var formEdit = document.getElementById("formEdit");
+
+            formTambah.style.display = "block";
+            formEdit.style.display = "none";
+
+            document.getElementById('editNamaSantri').value = '';
+            document.getElementById('editNisSantri').value = '';
+        }
+
+        function editSantri(kelasId, santriIndex) {
+            console.log('Edit button clicked');
+            $.ajax({
+                type: "GET",
+                url: `{{ url_for('get_santri', kelas_id=kelas._id, santri_index='') }}${santriIndex}`,
+                success: function (response) {
+                    document.getElementById('editNamaSantri').value = response.nama;
+                    document.getElementById('editNisSantri').value = response.nis;
+                    document.getElementById('editSantriIndex').value = santriIndex; // Add this line
+
+                    var formTambah = document.getElementById("formTambah");
+                    var formEdit = document.getElementById("formEdit");
+
+                    formTambah.style.display = "none";
+                    formEdit.style.display = "block";
+
+                    console.log('Form displayed');
+                },
+                error: function (error) {
+                    alert('Terjadi kesalahan saat mengambil data santri');
+                }
+            });
+        }
+        function updateSantri() {
+            var kelasId = document.getElementById('kelasId').value;
+            var santriIndex = document.getElementById('editSantriIndex').value; // Add this line
+            var editNamaSantri = document.getElementById('editNamaSantri').value;
+            var editNisSantri = document.getElementById('editNisSantri').value;
+
+            // Create a FormData object
+            var formData = new FormData();
+            formData.append('kelas_id', kelasId);
+            formData.append('edit_santri', santriIndex); // Add this line
+            formData.append('edit_nama_santri', editNamaSantri);
+            formData.append('edit_nis_santri', editNisSantri);
+
+            $.ajax({
+                type: 'POST',
+                url: `{{ url_for('update_santri', kelas_id='') }}${kelasId}`,
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function (response) {
+                    alert('Data Santri berhasil diubah');
+                    window.location.reload();
+                },
+                error: function (error) {
+                    console.error('Error:', error);
+                    alert('Terjadi kesalahan saat mengupdate data santri');
+                }
+            });
+        }
+
+    </script>
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg bg-body-tertiary">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#"><img class="logo" src="/static/pic/ppd.png" alt=""></a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav mx-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link menu" href="/">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link menu" href="/about">About</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link menu" href="/jurnal">Absensi</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mt-4">
+        <h1>{{ kelas.nama_kelas }}</h1>
+        <form method="post" id="formTambah" action="{{ url_for('kelas', kelas_id=kelas._id) }}" class="my-4">
+            <div class="mb-3">
+                <label for="nama_santri" class="form-label">Nama Santri:</label>
+                <input type="text" id="nama" name="nama_santri" class="form-control" required>
+            </div>
+            <div class="mb-3">
+                <label for="nis_santri" class="form-label">NIS Santri:</label>
+                <input type="text" id="nis" name="nis_santri" class="form-control" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Tambah Santri</button>
+        </form>
+        <form method="post" id="formEdit" action="{{ url_for('update_santri', kelas_id=kelas._id) }}" class="my-4"
+            style="display: none;">
+            <input type="hidden" id="kelasId" name="kelas_id" value="{{ kelas._id }}">
+            <input type="hidden" id="editSantriIndex" name="edit_santri" value="{{ santri_index | default(-1) }}">
+            <div class="mb-3">
+                <label for="editNamaSantri" class="form-label">Nama Santri:</label>
+                <input type="text" id="editNamaSantri" name="edit_nama_santri" class="form-control" required>
+            </div>
+            <div class="mb-3">
+                <label for="editNisSantri" class="form-label">NIS Santri:</label>
+                <input type="text" id="editNisSantri" name="edit_nis_santri" class="form-control" required>
+            </div>
+            <button type="button" class="btn btn-primary" onclick="updateSantri()">Update Santri</button>
+            <button type="button" class="btn btn-danger" onclick="kembali()">Cancel</button>
+        </form>
+
+        <ul class="list-group">
+            {% for santri in kelas.santri %}
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+                {{ santri.nama }} - {{ santri.nis }}
+                <div class="btn-group" role="group">
+                    <button type="button" class="btn btn-primary"
+                        onclick="editSantri('{{ kelas._id }}', {{ loop.index - 1 }})">
+                        Edit
+                    </button>
+                    <button type="button" class="btn btn-danger"
+                        onclick="hapusSantri('{{ kelas._id }}', {{ loop.index - 1 }})">
+                        Hapus
+                    </button>
+                </div>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+
+
+    <footer class="text-center text-lg-start text-white"
+        style="margin-top: 20px;background-color: #3e4551; margin-top: 150px;">
+        <section class="">
+            <div class="row">
+                <div class="col-lg-4 col-md-6 mb-4 mb-md-0">
+                    <p>
+                        <li>Alfin Gunawan</li>
+                        <li>Ahmad Amin Amrullah</li>
+                        <li>Bryan Nathanael Tutuhatunewa</li>
+                        <li>Daffara Chairunnisa Zhuliani</li>
+                    </p>
+                </div>
+            </div>
+        </section>
+        <hr class="mb-4" />
+        <section class="mb-4 text-center">
+            <a class="btn btn-outline-light btn-floating m-1" href="#!" role="button"><i class="fab fa-facebook"></i>
+            </a>
+            <a class="btn btn-outline-light btn-floating m-1" href="#!" role="button"><i
+                    class="fab fa-instagram"></i></a>
+            <a class="btn btn-outline-light btn-floating m-1" href="https://github.com/AminAmrullah03/digidas.git"
+                role="button"><i class="fab fa-github"></i></a>
+        </section>
+        </div>
+        <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2)">
+            © 2023 Copyright:
+            <a class="text-white" href="#">DIGIDAS</a>
+        </div>
+    </footer>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</body>
+
+</html>

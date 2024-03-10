@@ -1,0 +1,171 @@
+@import url(https://fonts.googleapis.com/css?family=Poppins:300);
+
+
+nav {
+    height: 4.5rem;
+    width: 100%;
+    background: linear-gradient(to right, #037367, #00281f);
+    box-shadow: 0 3px 20px rgba(0, 0, 0, 0.2);
+    display: flex;
+}
+
+.logo {
+    width: 60px;
+    margin-left: 20px;
+}
+
+.menu {
+    text-decoration: none;
+    margin: 0 0.7vw;
+    color: #bea42e;
+    font-family: Philosopher;
+    font-size: x-large;
+}
+
+.menu:hover {
+    text-decoration: none;
+    margin: 0 0.7vw;
+    color: white;
+    font-family: Philosopher;
+    font-size: x-large;
+}
+
+.tlogin {
+    margin-right: 30px;
+    font-family: Philosopher;
+    color: #bea42e;
+    border-color: #bea42e;
+}
+
+.tlogin:hover {
+    color: white;
+    border-color: white;
+    background: transparent;
+}
+
+.nav-item {
+    padding-right: 80px;
+}
+
+.footer {
+    width: 100%;
+    left: 0;
+    right: 0;
+    position: fixed;
+    bottom: 0;
+    background: linear-gradient(to right, #037367, #00281f);
+    ;
+}
+
+
+html {
+    height: 100%;
+}
+
+.login-page {
+    width: 400px;
+    padding: 8% 0 0;
+    margin: auto;
+}
+
+.form-floating .form-select {
+    background-color: transparent;
+    margin-top: 10px;
+    margin-bottom: 20px;
+}
+
+.form-floating .form-select,
+.form-floating .form-select:focus,
+.form-floating .form-select:valid {
+    border: 1 !important;
+    color: #fff;
+}
+
+input::placeholder {
+    color: #fff;
+}
+
+.drop {
+    color: black;
+}
+
+.form {
+    position: relative;
+    z-index: 1;
+    text-align: center;
+    position: absolute;
+    margin-top: 50px;
+    top: 50%;
+    left: 50%;
+    width: 400px;
+    padding: 40px;
+    transform: translate(-50%, -50%);
+    box-sizing: border-box;
+    border: solid black;
+    background: linear-gradient(to bottom, #037367, #00281f);
+}
+
+.form input {
+    width: 100%;
+    padding: 10px 0;
+    font-size: 13px;
+    color: #fff;
+    margin-bottom: 30px;
+    border: none;
+    border-bottom: 1px solid #fff;
+    outline: none;
+    background: transparent;
+
+}
+
+h2 {
+    color: white;
+}
+
+
+.form .message {
+    margin: 15px 0 0;
+    color: #f5f2f2;
+    font-size: 12px;
+    background: transparent;
+}
+
+.form .message a {
+    color: #289bb8;
+    text-decoration: none;
+}
+
+.form .register-form {
+    display: none;
+}
+
+.btni {
+    position: relative;
+    display: inline-block;
+    padding: 10px 20px;
+    color: #bea42e;
+    font-size: 16px;
+    text-decoration: none;
+    overflow: hidden;
+    transition: .5s;
+    margin-top: 15px;
+    letter-spacing: 2px;
+    border: solid #bea42e;
+}
+
+.btni:hover {
+    background: #bea42e;
+    color: #fff;
+    border-radius: 5px;
+}
+
+.btni span {
+    position: absolute;
+    display: block;
+}
+
+.judul {
+    color: #bea42e;
+    font-family: Philosopher;
+    font-size: x-large;
+}

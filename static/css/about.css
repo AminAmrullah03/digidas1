@@ -1,0 +1,209 @@
+@import url(https://fonts.googleapis.com/css?family=Poppins:300);
+
+
+nav {
+    height: 4.5rem;
+    width: 100%;
+    background: linear-gradient(to right, #037367, #00281f);
+    box-shadow: 0 3px 20px rgba(0, 0, 0, 0.2);
+    display: flex;
+}
+
+.logo {
+    width: 60px;
+    margin-left: 20px;
+}
+
+.menu {
+    text-decoration: none;
+    margin: 0 0.7vw;
+    color: #bea42e;
+    font-family: Philosopher;
+    font-size: x-large;
+}
+
+.menu:hover {
+    text-decoration: none;
+    margin: 0 0.7vw;
+    color: white;
+    font-family: Philosopher;
+    font-size: x-large;
+}
+
+
+.tlogin {
+    margin-right: 30px;
+    font-family: Philosopher;
+    color: #bea42e;
+    border-color: #bea42e;
+}
+
+.tlogin:hover {
+    color: white;
+    border-color: white;
+    background: transparent;
+}
+
+.nav-item {
+    padding-right: 80px;
+}
+
+.footer {
+    width: 100%;
+    left: 0;
+    right: 0;
+    position: fixed;
+    bottom: 0;
+    background: linear-gradient(to right, #037367, #00281f);
+    ;
+}
+
+.social-media {
+    margin-top: 30px;
+}
+
+.social-media a {
+    margin-right: 10px;
+}
+
+.field:not(:last-child) {
+    margin-bottom: 20px;
+}
+
+.fab.fa-facebook-square {
+    color: #3b5998;
+}
+
+.fab.fa-instagram-square {
+    color: #e4405f;
+}
+
+.fab.fa-telegram {
+    color: #0088cc;
+}
+
+@media screen and (min-width: 768px) {
+    body {
+        padding-top: calc(3.25rem + 20px);
+    }
+
+    .navbar {
+        padding: 10px 0;
+        position: fixed;
+        top: 0;
+        width: 100%;
+    }
+
+    .hero.is-fullheight {
+        min-height: calc(100vh - 6.5rem - 40px);
+    }
+}
+
+html,
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+    font-size: 14px;
+    background: #F0F2F4;
+}
+
+.navbar.is-white {
+    background: #F0F2F4;
+}
+
+.navbar-brand .brand-text {
+    font-size: 1.11rem;
+    font-weight: bold;
+}
+
+.hero-body {
+    background-image: url(https://i.pinimg.com/236x/ce/6c/dc/ce6cdc517c5eef915e77d5d47d93d524.jpg);
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    height: 500px;
+}
+
+.articles {
+    margin: 5rem 0;
+    margin-top: -200px;
+}
+
+.articles .content p {
+    line-height: 1.9;
+    margin: 15px 0;
+}
+
+.author-image {
+    position: absolute;
+    top: -30px;
+    left: 50%;
+    width: 60px;
+    height: 60px;
+    margin-left: -30px;
+    border: 3px solid #ccc;
+    border-radius: 50%;
+}
+
+.media-center {
+    display: block;
+    margin-bottom: 1rem;
+}
+
+.media-content {
+    margin-top: 3rem;
+}
+
+.article,
+.promo-block {
+    margin-top: 6rem;
+}
+
+div.column.is-8:first-child {
+    padding-top: 0;
+    margin-top: 0;
+}
+
+.article-title {
+    font-size: 2rem;
+    font-weight: lighter;
+    line-height: 2;
+}
+
+.article-subtitle {
+    color: #909AA0;
+    margin-bottom: 3rem;
+}
+
+.article-body {
+    line-height: 1.4;
+    margin: 0 6rem;
+}
+
+.promo-block .container {
+    margin: 1rem 5rem;
+}
+
+:root {
+    ::-webkit-scrollbar {
+        height: 10px;
+        width: 10px
+    }
+
+    ::-webkit-scrollbar-track {
+        background: #efefef;
+        border-radius: 6px
+    }
+
+    ::-webkit-scrollbar-thumb {
+        background: #d5d5d5;
+        border-radius: 6px
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+        background: #c4c4c4
+    }
+}
+
+.digidas-text {
+    color: white;
+}

@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+    <title>Data Pulang</title>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <script>
+        function edit_daftar(id) {
+            var formTambah = document.getElementById("formTambah");
+            var btnKembali = document.getElementById("btnKembali");
+            document.querySelector('.btni').innerText = 'Simpan';
+            document.querySelector('.btni').removeAttribute('onclick');
+            document.querySelector('.btni').addEventListener('click', function () {
+                simpan_edit(id);
+            });
+            $.ajax({
+                type: "GET",
+                url: `/get_data_pulang/${id}`,
+                success: function (response) {
+                    document.getElementById('nama').value = response.nama;
+                    document.getElementById('nis').value = response.nis;
+                    document.getElementById('alasan').value = response.alasan;
+                    document.getElementById('durasi').value = response.durasi;
+                    document.getElementById('tanggal').value = response.tanggal;
+                    document.getElementById('penjemput').value = response.penjemput;
+                    document.getElementById('status_penjemput').value = response.status_penjemput;
+                    document.getElementById('pemberi_izin').value = response.pemberi_izin;
+                    // Tampilkan form
+                    formTambah.style.display = "block";
+                    btnKembali.style.display = "block";
+                },
+                error: function (error) {
+                    console.error('Error:', error);
+                }
+            });
+        }
+
+        function simpan_edit(id) {
+            var nama = document.getElementById('nama').value;
+            var nis = document.getElementById('nis').value;
+            var alasan = document.getElementById('alasan').value;
+            var durasi = document.getElementById('durasi').value;
+            var tanggal = document.getElementById('tanggal').value;
+            var penjemput = document.getElementById('penjemput').value;
+            var status_penjemput = document.getElementById('status_penjemput').value;
+            var pemberi_izin = document.getElementById('pemberi_izin').value;
+            $.ajax({
+                type: "POST",
+                url: `/edit_data_pulang/${id}`,
+                data: {
+                    nama: nama,
+                    nis: nis,
+                    alasan: alasan,
+                    durasi: durasi,
+                    tanggal: tanggal,
+                    penjemput: penjemput,
+                    status_penjemput: status_penjemput,
+                    pemberi_izin: pemberi_izin,
+                },
+                success: function (response) {
+                    console.log(response);
+                    Swal.fire({
+                        title: 'Sukses!',
+                        text: 'Data berhasil diedit!',
+                        icon: 'success'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            setTimeout(() => {
+                                window.location.reload();
+                            }, 2000);
+                        }
+                    });
+                },
+
+                error: function (error) {
+                    console.error('Error:', error);
+                    Swal.fire({
+                        title: 'Error!',
+                        text: 'Terjadi kesalahan saat mengedit data.',
+                        icon: 'error'
+                    });
+                }
+            });
+        }
+
+        function kembali() {
+            var formTambah = document.getElementById("formTambah");
+            var btnKembali = document.getElementById("btnKembali");
+            formTambah.style.display = "none";
+            document.getElementById('nama').value = response.nama;
+            document.getElementById('nis').value = response.nis;
+            document.getElementById('alasan').value = response.alasan;
+            document.getElementById('durasi').value = response.durasi;
+            document.getElementById('tanggal').value = response.tanggal;
+            document.getElementById('penjemput').value = response.penjemput;
+            document.getElementById('status_penjemput').value = response.status_penjemput;
+            document.getElementById('pemberi_izin').value = response.pemberi_izin;
+        }
+    </script>
+</head>
+
+<body>
+    <div class="container mt-5">
+        <h1 class="mb-4">Data Pulang</h1>
+        <div class="login-page" id="formTambah" style="display:none;">
+            <div class="form">
+                <form class="login-form" method="post">
+                    <strong>
+                        <h2 class="judul">Edit Santri</h2>
+                    </strong>
+                    <input type="text" placeholder="Nama" id="nama" name="nama" required />
+                    <input type="number" placeholder="NIS" id="nis" name="nis" required />
+                    <input type="text" placeholder="Alasan" id="alasan" name="alasan" required />
+                    <input type="text" placeholder="Durasi" id="durasi" name="durasi" required />
+                    <input type="date" placeholder="Tanggal" id="tanggal" name="tanggal" required />
+                    <input type="text" placeholder="Penjemput" id="penjemput" name="penjemput" required />
+                    <input type="text" placeholder="Status Penjemput" id="status_penjemput" name="status_penjemput" required />
+                    <input type="text" placeholder="Pemberi Izin" id="pemberi_izin" name="pemberi_izin" required />
+                    <button type="submit" class="btni" onclick="simpan_edit()">Tambah</button>
+                    <button type="button" class="btni" id="btnKembali" onclick="kembali()">Kembali</button>
+                </form>
+            </div>
+        </div>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">Nama</th>
+                    <th scope="col">NIS</th>
+                    <th scope="col">Alasan</th>
+                    <th scope="col">Durasi</th>
+                    <th scope="col">Tanggal</th>
+                    <th scope="col">Penjemput</th>
+                    <th scope="col">Status Penjemput</th>
+                    <th scope="col">Pemberi Izin</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for entry in data %}
+                <tr>
+                    <td>{{ entry.nama }}</td>
+                    <td>{{ entry.nis }}</td>
+                    <td>{{ entry.alasan}}</td>
+                    <td>{{ entry.durasi}}</td>
+                    <td>{{ entry.tanggal }}</td>
+                    <td>{{ entry.penjemput }}</td>
+                    <td>{{ entry.status_penjemput}}</td>
+                    <td>{{ entry.pemberi_izin }}</td>
+                    <td>
+                        <button type="button" class="btn btn-secondary" onclick="edit_daftar('{{ entry._id }}')">
+                            <i class="fas fa-edit"></i> Edit
+                        </button>
+                        <a href="{{ url_for('hapus_pulang', id=entry['_id']) }}" class="btn btn-danger"><i
+                                class="fas fa-trash"></i>Delete</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-r0I11+wx50j7d5qd5UWUN5z5l3gF5voRNFp4XrQ2gAFGvOV+5y6P8u1q5R0i6bF"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>

@@ -1,0 +1,52 @@
+nav {
+    height: 4.5rem;
+    width: 100vw;
+    background: linear-gradient(to right,#037367 ,#00281f);
+    box-shadow: 0 3px 20px rgba(0, 0, 0, 0.2);
+    display: flex;
+}
+
+.logo {
+    width: 60px;
+    margin-left: 20px;
+}
+
+.menu {
+    text-decoration: none;
+    margin: 0 0.7vw;
+    color: #bea42e;
+    font-family: Philosopher;
+    font-size: x-large;
+}
+
+.menu:hover {
+    text-decoration: none;
+    margin: 0 0.7vw;
+    color: white;
+    font-family: Philosopher;
+    font-size: x-large;
+}
+
+.tlogin {
+    margin-right: 30px;
+    font-family: Philosopher;
+    color: #bea42e; 
+    border-color: #bea42e;
+}
+
+.tlogin:hover {
+    color: white;
+    }
+
+.nav-item {
+    padding-right: 80px;
+}
+
+.footer {
+    width: 100%;
+    left: 0;
+    right: 0;
+    position: fixed;
+    bottom: 0;
+    background: linear-gradient(to right,#037367 ,#00281f);;
+}
