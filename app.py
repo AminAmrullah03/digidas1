@@ -113,11 +113,14 @@ def tambah_absensi():
     if request.method == 'POST':
             data = {
                 'nama': request.form['nama'],
+                'waktu': request.form['waktu'],
                 'hadir': request.form['hadir'],
+                'tanggal' : request.form['tanggal']
             }
             print(data)
-            # ramadan.insert_one(data)
+            ramadan.insert_one(data)
             return redirect(url_for('absensi_kehadiran', success=1))
+    return render_template('absensi_kehadiran')
 
 @app.route("/data_kehadiran")
 def data_hadir():

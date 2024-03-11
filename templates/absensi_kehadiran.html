@@ -15,7 +15,7 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
-    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
     <title>DIGIDAS</title>
     <link rel="icon" type="image/png" href="/static/pic/ppd.png">
 </head>
@@ -46,8 +46,16 @@
         <form method="post" action="/tambah_absensi">
             <div class="form-group">
                 <label for="namaGuruInput">Nama Guru:</label>
-                <input type="text" class="form-control" id="namaGuruInput" name="nama">
+                <input type="text" class="form-control" id="namaGuruInput" name="nama" required>
                 <div class="autocomplete-dropdown" id="autocompleteDropdown"></div>
+            </div>
+            <div class="form-group">
+                <label for="statusSelect">Waktu :</label>
+                <select class="form-control" id="statusSelect" name="waktu">
+                    <option value="Pagi">Pagi</option>
+                    <option value="Sore">Sore</option>
+                    <option value="Malam">Malam</option>
+                </select>
             </div>
             <div class="form-group">
                 <label for="statusSelect">Status Kehadiran:</label>
@@ -57,10 +65,33 @@
                     <option value="alpha">Alpha</option>
                 </select>
             </div>
+            <div class="form-group">
+                <label for="namaGuruInput">Tanggal :</label>
+                <input type="date" class="form-control" id="namaGuruInput" name="tanggal" required>
+            </div>
             <button type="submit" class="btn btn-primary">Submit</button>
+            <a href="/absensi"><button type="button" class="btn btn-danger">Kembali</button></a>
         </form>
     </div>
     <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            // Ambil nilai dari parameter query string 'success' (contoh: "?success=1")
+            var successParam = new URLSearchParams(window.location.search).get('success');
+
+            // Periksa apakah parameter 'success' ada dan bernilai 1
+            if (successParam === '1') {
+                // Tampilkan pop-up alert jika berhasil
+                Swal.fire({
+                    title: "Berhasil ditambahkan!",
+                    text: "You clicked the button!",
+                    icon: "success"
+                }).then(function () {
+                    // Hapus parameter 'success' dari URL
+                    var urlWithoutSuccessParam = window.location.href.split('?')[0];
+                    window.history.replaceState({}, document.title, urlWithoutSuccessParam);
+                });
+            }
+        });
         const namaGuruInput = document.getElementById('namaGuruInput');
         const autocompleteDropdown = document.getElementById('autocompleteDropdown');
 
@@ -135,45 +166,7 @@
                 autocompleteDropdown.style.display = 'none';
             }
         });
-        $(document).ready(function () {
-            $('form').submit(function (event) {
-                event.preventDefault();
-                var form = $(this);
-                $.ajax({
-                    type: form.attr('method'),
-                    url: form.attr('action'),
-                    data: form.serialize(),
-                    dataType: 'json',
-                    success: function (data) {
-                        if (data.success) {
-                            swal({
-                                title: "Sukses!",
-                                text: data.message,
-                                icon: "success",
-                                button: "OK",
-                            }).then(function () {
-                                window.location.href = "/absensi_kehadiran"; // Redirect ke halaman utama setelah menekan OK
-                            });
-                        } else {
-                            swal({
-                                title: "Gagal!",
-                                text: data.message,
-                                icon: "error",
-                                button: "OK",
-                            });
-                        }
-                    },
-                    error: function () {
-                        swal({
-                            title: "Gagal!",
-                            text: "Terjadi kesalahan saat memproses permintaan.",
-                            icon: "error",
-                            button: "OK",
-                        });
-                    }
-                });
-            });
-        });
+
     </script>
 </body>
 
