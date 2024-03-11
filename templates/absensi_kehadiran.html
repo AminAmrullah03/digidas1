@@ -132,6 +132,60 @@
             "Ustad Amrul",
             "Ustad Yaqin"
         ];
+        const KEY_ARROW_DOWN = 40;
+        const KEY_ARROW_UP = 38;
+        const KEY_ENTER = 13;
+
+        namaGuruInput.addEventListener('keydown', function (e) {
+            const dropdownItems = autocompleteDropdown.querySelectorAll('.autocomplete-item');
+            const selectedItem = autocompleteDropdown.querySelector('.selected');
+
+            if (e.keyCode === KEY_ARROW_DOWN) {
+                e.preventDefault(); // Menghentikan pergerakan kursor bawaan browser
+
+                // Jika belum ada yang dipilih, pilih item pertama
+                if (!selectedItem) {
+                    if (dropdownItems.length > 0) {
+                        dropdownItems[0].classList.add('selected');
+                        namaGuruInput.value = dropdownItems[0].textContent;
+                    }
+                } else {
+                    const nextItem = selectedItem.nextElementSibling;
+                    if (nextItem) {
+                        selectedItem.classList.remove('selected');
+                        nextItem.classList.add('selected');
+                        namaGuruInput.value = nextItem.textContent;
+                    }
+                }
+            } else if (e.keyCode === KEY_ARROW_UP) {
+                e.preventDefault(); // Menghentikan pergerakan kursor bawaan browser
+
+                if (selectedItem) {
+                    const prevItem = selectedItem.previousElementSibling;
+                    if (prevItem) {
+                        selectedItem.classList.remove('selected');
+                        prevItem.classList.add('selected');
+                        namaGuruInput.value = prevItem.textContent;
+                    }
+                }
+            } else if (e.keyCode === KEY_ENTER) {
+                e.preventDefault(); // Mencegah form untuk melakukan submit bawaan browser
+
+                // Jika ada item yang dipilih, isi input dengan teks item yang dipilih
+                if (selectedItem) {
+                    namaGuruInput.value = selectedItem.textContent;
+                    autocompleteDropdown.innerHTML = '';
+                }
+            }
+        });
+
+        // Menangani klik pada item dropdown
+        autocompleteDropdown.addEventListener('click', function (e) {
+            if (e.target.classList.contains('autocomplete-item')) {
+                namaGuruInput.value = e.target.textContent;
+                autocompleteDropdown.innerHTML = '';
+            }
+        });
 
         function showDropdown(input) {
             const searchText = input.value.toLowerCase();
