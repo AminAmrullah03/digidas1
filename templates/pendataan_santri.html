@@ -37,16 +37,16 @@
     <div class="container">
         <a href="/data_izin" style="text-decoration:none;">
             <figure>
-                <img src="/static/pic/Perizinan.png" alt="Perizinan" href="/izin_keluar">
+                <img src="{{ url_for('static', filename='pic/Perizinan.png') }}" alt="Perizinan" href="/izin_keluar">
                 <figcaption>Perizinan Santri</figcaption>
             </figure>
         </a>
         <figure>
-            <img src="/static/pic/Pelanggaran.png" alt="Pelanggaran" href="pelanggaran.html">
+            <img src="{{ url_for('static', filename='pic/Pelanggaran.png') }}" alt="Pelanggaran" href="/pelanggaran">
             <figcaption>Pelanggaran Santri</figcaption>
         </figure>
         <figure>
-            <img src="/static/pic/Kepulangan.png" alt="Kepulangan" href="data_pulang.html">
+            <img src="{{ url_for('static', filename='pic/Kepulangan.png') }}" alt="Kepulangan" href="data_pulang">
             <figcaption>Kepulangan Santri</figcaption>
         </figure>
     </div>
